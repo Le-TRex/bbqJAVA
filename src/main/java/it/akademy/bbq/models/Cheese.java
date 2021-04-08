@@ -1,4 +1,8 @@
 package it.akademy.bbq.models;
 
-public class Cheese {
+import javax.persistence.Entity;
+
+@Entity
+public class Cheese extends Food {
+
 }
