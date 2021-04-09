@@ -94,9 +94,6 @@ public class BarbecueController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        barbecue.getGuests().add(guest);
-        guest.getBarbecues().add(barbecue);
-
         barbecue.setId(barbecueId);
         guest.setId(guestId);
 
@@ -106,6 +103,7 @@ public class BarbecueController {
         return new ResponseEntity<>(barbecue, HttpStatus.OK);
     }
 
+    //add food to bbq
     @PutMapping("/{barbecueId}/foods/{foodId}")
     public ResponseEntity<Barbecue> addFoodToBarbecue(@PathVariable int barbecueId, @PathVariable int foodId) {
         Barbecue barbecue = barbecueDao.findById(barbecueId);
@@ -122,6 +120,7 @@ public class BarbecueController {
         food.setId(foodId);
 
         barbecue.getFoods().add(food);
+        food.setHasBeenCooked(true);
         foodDao.save(food);
 
         return new ResponseEntity<>(barbecue, HttpStatus.OK);
@@ -131,13 +130,26 @@ public class BarbecueController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBarbecue(@PathVariable int id) {
         Barbecue barbecue = barbecueDao.findById(id);
-
         if (barbecue == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        List<Guest> guests = barbecue.getGuests();
+        if (!(guests.isEmpty())) {
+            //remove bbq from each guest's bbq list
+            for (Guest guest: guests){
+                guest.getBarbecues().removeIf(bbq -> bbq.getId()==id);
+                int guestId = guest.getId();
+                guest.setId(guestId);
+                guestDao.save(guest);
+            }
+            //nullify bbq's guest list
+            barbecue.setGuests(null);
+            //delete bbq
+            barbecueDao.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         barbecueDao.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }
