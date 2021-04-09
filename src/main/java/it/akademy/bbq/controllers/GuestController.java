@@ -71,7 +71,7 @@ public class GuestController {
         return new ResponseEntity<>(guest, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/barbecues")
+    @GetMapping("/{id}/barbecues") //Find all guest's barbecues
     public ResponseEntity<List<Barbecue>> findAllByGuests(@PathVariable int id){
         Guest guest = guestDao.findById(id);
         if(guest ==null){
