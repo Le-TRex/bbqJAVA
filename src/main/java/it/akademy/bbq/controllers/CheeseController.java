@@ -25,7 +25,7 @@ public class CheeseController {
         return new ResponseEntity<>(cheeses, HttpStatus.OK);
     }
 
-    @GetMapping("/?name={name}")
+    @GetMapping("/name={name}")
     public ResponseEntity<List<Cheese>> getAllCheesesByName(@PathVariable String name){
         List<Cheese> cheeses = cheeseDao.findAllByName(name);
         return new ResponseEntity<>(cheeses, HttpStatus.OK);

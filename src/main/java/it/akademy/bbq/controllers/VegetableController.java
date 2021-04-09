@@ -25,7 +25,7 @@ public class VegetableController {
         return new ResponseEntity<>(vegetables, HttpStatus.OK);
     }
 
-    @GetMapping("/?name={name}")
+    @GetMapping("/name={name}")
     public ResponseEntity<List<Vegetable>> getAllVegetablesByName(@PathVariable String name){
         List<Vegetable> vegetables = vegetableDao.findAllByName(name);
         return new ResponseEntity<>(vegetables, HttpStatus.OK);
