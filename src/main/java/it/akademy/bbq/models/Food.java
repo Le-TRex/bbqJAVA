@@ -2,6 +2,7 @@ package it.akademy.bbq.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import it.akademy.bbq.Aliment;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,12 +11,13 @@ import java.util.List;
 
 
 @Entity
-public class Food {
+public class Food implements Aliment {
     /* ATTRIBUTES */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private Boolean hasBeenCooked;
 
     @JsonBackReference(value = "barbecue-food")
     @ManyToOne
@@ -28,9 +30,16 @@ public class Food {
     /* CONSTRUCTORS */
     public Food(){}
 
-    public Food(int id, String name) {
+    public Food(int id, String name, Boolean hasBeenCooked) {
         this.id = id;
         this.name = name;
+        this.hasBeenCooked = hasBeenCooked;
+    }
+
+    /* METHODS (but getters & setters) */
+    @Override
+    public void cook() {
+        this.hasBeenCooked = true;
     }
 
     /* GETTERS & SETTERS */
@@ -65,5 +74,13 @@ public class Food {
 
     public void setGuest(Guest guest) {
         this.guest = guest;
+    }
+
+    public Boolean getHasBeenCooked() {
+        return hasBeenCooked;
+    }
+
+    public void setHasBeenCooked(Boolean hasBeenCooked) {
+        this.hasBeenCooked = hasBeenCooked;
     }
 }
