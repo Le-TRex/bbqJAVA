@@ -1,7 +1,9 @@
 package it.akademy.bbq.controllers;
 
 
+import it.akademy.bbq.dao.BarbecueDao;
 import it.akademy.bbq.dao.FoodDao;
+import it.akademy.bbq.models.Barbecue;
 import it.akademy.bbq.models.Food;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,11 @@ import java.util.List;
 public class FoodController {
     /* AUTOWIRE DAOS */
     private final FoodDao foodDao;
+    private final BarbecueDao barbecueDao;
 
-    public FoodController(FoodDao foodDao) {
+    public FoodController(FoodDao foodDao, BarbecueDao barbecueDao) {
         this.foodDao = foodDao;
+        this.barbecueDao = barbecueDao;
     }
 
     /* CRUD */
@@ -67,6 +71,18 @@ public class FoodController {
         if(food == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        List<Barbecue> barbecues = barbecueDao.findAllByFoods(food);
+        if ( barbecues == null ) {
+            foodDao.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        for (Barbecue barbecue: barbecues) {
+            barbecue.getFoods().removeIf(f -> f.getId()==id);
+            barbecueDao.save(barbecue);
+        }
+
         foodDao.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
