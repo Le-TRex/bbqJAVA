@@ -24,6 +24,7 @@ public class FoodController {
     }
 
     /* CRUD */
+    /* GET */
     @GetMapping
     public ResponseEntity<List<Food>> getAllFoods(){
         List<Food> foods = foodDao.findAll();
@@ -45,13 +46,15 @@ public class FoodController {
         return new ResponseEntity<>(food, HttpStatus.OK);
     }
 
+    /* POST */
+
     @PostMapping
     public ResponseEntity<Food> createFood(@RequestBody Food food){
         foodDao.save(food);
         return new ResponseEntity<>(food, HttpStatus.CREATED);
     }
 
-
+    /* PUT || PATCH */
     @PutMapping("/{id}")
     public ResponseEntity<Food> putFood(@PathVariable int id, @RequestBody Food food){
         Food foodToRename = foodDao.findById(id);
@@ -65,6 +68,7 @@ public class FoodController {
         return new ResponseEntity<>(food, HttpStatus.OK);
     }
 
+    /* DELETE */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteFood(@PathVariable int id){
         Food food = foodDao.findById(id);
