@@ -1,7 +1,6 @@
 package it.akademy.bbq.dao;
 
-import it.akademy.bbq.models.Barbecue;
-import it.akademy.bbq.models.Guest;
+import it.akademy.bbq.models.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +14,7 @@ public interface GuestDao extends JpaRepository<Guest, Integer> {
     List<Guest> findAllByLastname(String lastname);
     List<Guest> findAllByCity(String city);
     List<Guest> findAllByCountry(String country);
+    List<Guest> findAllByFoods(Food food);
 
     Guest findById(int id);
 

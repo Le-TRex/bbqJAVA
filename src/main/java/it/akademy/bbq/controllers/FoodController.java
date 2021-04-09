@@ -1,10 +1,8 @@
 package it.akademy.bbq.controllers;
 
 
-import it.akademy.bbq.dao.BarbecueDao;
-import it.akademy.bbq.dao.FoodDao;
-import it.akademy.bbq.models.Barbecue;
-import it.akademy.bbq.models.Food;
+import it.akademy.bbq.dao.*;
+import it.akademy.bbq.models.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +15,12 @@ public class FoodController {
     /* AUTOWIRE DAOS */
     private final FoodDao foodDao;
     private final BarbecueDao barbecueDao;
+    private final GuestDao guestDao;
 
-    public FoodController(FoodDao foodDao, BarbecueDao barbecueDao) {
+    public FoodController(FoodDao foodDao, BarbecueDao barbecueDao, GuestDao guestDao) {
         this.foodDao = foodDao;
         this.barbecueDao = barbecueDao;
+        this.guestDao = guestDao;
     }
 
     /* CRUD */
@@ -72,15 +72,25 @@ public class FoodController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        List<Guest> guests = guestDao.findAllByFoods(food);
         List<Barbecue> barbecues = barbecueDao.findAllByFoods(food);
-        if ( barbecues == null ) {
+        if ( barbecues == null && guests ==null ) {
             foodDao.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        for (Barbecue barbecue: barbecues) {
-            barbecue.getFoods().removeIf(f -> f.getId()==id);
-            barbecueDao.save(barbecue);
+        if (barbecues != null){
+            for (Barbecue barbecue: barbecues) {
+                barbecue.getFoods().removeIf(f -> f.getId()==id);
+                barbecueDao.save(barbecue);
+            }
+        }
+
+        if (guests != null){
+            for (Guest guest: guests) {
+                guest.getFoods().removeIf(f -> f.getId()==id);
+                guestDao.save(guest);
+            }
         }
 
         foodDao.deleteById(id);
