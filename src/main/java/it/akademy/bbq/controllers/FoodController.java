@@ -78,7 +78,7 @@ public class FoodController {
 
         List<Guest> guests = guestDao.findAllByFoods(food);
         List<Barbecue> barbecues = barbecueDao.findAllByFoods(food);
-        if ( barbecues == null && guests ==null ) {
+        if ( barbecues == null && guests == null ) {
             foodDao.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
