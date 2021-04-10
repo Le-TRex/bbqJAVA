@@ -100,18 +100,14 @@ public class BarbecueController {
         //if guest owns some food
 
         if (!(foods.isEmpty())) {
+            barbecue.getFoods().addAll(foods);
             for (Food food: foods){
-
-                //bbq adds food to it's list
-                barbecue.getFoods().add(food);
-                barbecue.setId(barbecueId);
-                barbecueDao.save(barbecue);
 
                 //food sets its bbq
                 food.setBarbecue(barbecue);
 
                 //food hasBeenCooked changes
-                food.setHasBeenCooked(true);
+                food.cook();
 
                 //food unset its guest
                 food.setGuest(null);
@@ -123,20 +119,6 @@ public class BarbecueController {
 
             //guest removes food from it's list
             guest.setFoods(new ArrayList<>());
-            guest.setId(guestId);
-            guestDao.save(guest);
-
-            //Add guest to bbq and bbq to guest
-            barbecue.getGuests().add(guest);
-            guest.getBarbecues().add(barbecue);
-
-            barbecue.setId(barbecueId);
-            guest.setId(guestId);
-
-            barbecueDao.save(barbecue);
-            guestDao.save(guest);
-
-            return new ResponseEntity<>(barbecue, HttpStatus.OK);
         }
 
         //Add guest to bbq and bbq to guest
