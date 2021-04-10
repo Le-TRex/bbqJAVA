@@ -50,44 +50,8 @@ public class Guest {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstName) {
-        this.firstname = firstName;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastName) {
-        this.lastname = lastName;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public List<Barbecue> getBarbecues() {
         return barbecues;
-    }
-
-    public void setBarbecues(List<Barbecue> barbecues) {
-        this.barbecues = barbecues;
     }
 
     public List<Food> getFoods() {

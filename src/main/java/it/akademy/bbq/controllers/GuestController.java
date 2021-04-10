@@ -16,16 +16,12 @@ public class GuestController {
     private final GuestDao guestDao;
     private final BarbecueDao barbecueDao;
     private final FoodDao foodDao;
-    private final CheeseDao cheeseDao;
-    private final VegetableDao vegetableDao;
 
     @Autowired
-    public GuestController(GuestDao guestDao, BarbecueDao barbecueDao, FoodDao foodDao, CheeseDao cheeseDao, VegetableDao vegetableDao) {
+    public GuestController(GuestDao guestDao, BarbecueDao barbecueDao, FoodDao foodDao) {
         this.barbecueDao = barbecueDao;
         this.guestDao = guestDao;
         this.foodDao = foodDao;
-        this.cheeseDao = cheeseDao;
-        this.vegetableDao = vegetableDao;
     }
 
     /* CRUD */

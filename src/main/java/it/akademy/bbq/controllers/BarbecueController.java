@@ -1,16 +1,13 @@
 package it.akademy.bbq.controllers;
 
 import it.akademy.bbq.dao.*;
-import it.akademy.bbq.models.Barbecue;
-import it.akademy.bbq.models.Food;
-import it.akademy.bbq.models.Guest;
+import it.akademy.bbq.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 @RestController
@@ -20,16 +17,12 @@ public class BarbecueController {
     private final BarbecueDao barbecueDao;
     private final GuestDao guestDao;
     private final FoodDao foodDao;
-    private final CheeseDao cheeseDao;
-    private final VegetableDao vegetableDao;
 
     @Autowired
-    public BarbecueController(BarbecueDao barbecueDao, GuestDao guestDao, FoodDao foodDao, CheeseDao cheeseDao, VegetableDao vegetableDao) {
+    public BarbecueController(BarbecueDao barbecueDao, GuestDao guestDao, FoodDao foodDao) {
         this.barbecueDao = barbecueDao;
         this.guestDao = guestDao;
         this.foodDao = foodDao;
-        this.cheeseDao = cheeseDao;
-        this.vegetableDao = vegetableDao;
     }
 
     /* CRUD */
