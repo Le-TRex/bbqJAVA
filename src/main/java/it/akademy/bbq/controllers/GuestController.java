@@ -28,9 +28,7 @@ public class GuestController {
         this.vegetableDao = vegetableDao;
     }
 
-
     /* CRUD */
-
     /* GET */
     @GetMapping
     public ResponseEntity<List<Guest>> getAllGuests() {
@@ -130,6 +128,13 @@ public class GuestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        List<Barbecue> barbecues = barbecueDao.findAllByGuests(guest);
+        if (barbecues != null) {
+            for (Barbecue barbecue: barbecues) {
+                barbecue.getGuests().removeIf(g -> g.getId() == id);
+                barbecueDao.save(barbecue);
+            }
+        }
         guestDao.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
