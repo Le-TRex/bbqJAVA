@@ -55,4 +55,28 @@ public class Food implements Aliment {
     public void setGuest(Guest guest) {
         this.guest = guest;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Boolean getHasBeenCooked() {
+        return hasBeenCooked;
+    }
+
+    public void setHasBeenCooked(Boolean hasBeenCooked) {
+        this.hasBeenCooked = hasBeenCooked;
+    }
+
+    public Barbecue getBarbecue() {
+        return barbecue;
+    }
+
+    public Guest getGuest() {
+        return guest;
+    }
 }
